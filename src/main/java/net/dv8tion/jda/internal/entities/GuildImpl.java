@@ -1155,6 +1155,18 @@ public class GuildImpl implements Guild
 
     @Nonnull
     @Override
+    public ChannelAction<TextChannel> createPrivateChannel(@Nonnull String name)
+    {
+        checkPermission(Permission.MANAGE_CHANNEL);
+        Checks.notBlank(name, "Name");
+        name = name.trim();
+
+        Checks.check(name.length() > 0 && name.length() <= 100, "Provided name must be 1 - 100 characters in length");
+        return new ChannelActionImpl<>(TextChannel.class, name, this, ChannelType.PRIVATE);
+    }
+
+    @Nonnull
+    @Override
     public ChannelAction<VoiceChannel> createVoiceChannel(@Nonnull String name)
     {
         checkPermission(Permission.MANAGE_CHANNEL);
